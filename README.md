@@ -126,8 +126,6 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
 }
 ```
 
-And then finally we define the view that displays the feature. It holds onto a `Store<AppState, AppAction>` so that it can observe all changes to the state and re-render, and we can send all user actions to the store so that state changes. We must also introduce a struct wrapper around the fact alert to make it `Identifiable`, which the `.alert` view modifier requires:
-
 그리고 마지막으로 우리는 구현한 기능을 보여주는 view 를 정의합니다. view는 `Store<AppState, AppAction>` 를 가지고 있습니다. 그래서 state의 모든 상태변화를 구독해서 화면을 re-rendering 시켜줄 수 있습니다. 또한 우리는 모든 액션을 store에게 전달해주어서 store가 state 를 업데이트 하게끔 해줍니다. 또한 fact alert 를 `Identifiable` wrapper로 감쌉니다. 이는 `.alert` view modifier가 필요로 합니다. 
 
 <details>
