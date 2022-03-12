@@ -257,7 +257,7 @@ store.send(.factAlertDismissed) {
 }
 ```
 
-Composable Architecture 를 활용해서 기능을 빌드하고 테스트하는 기본적인 방법에 대해서 알아보았습니다. 더 심화된 과정에 대해서 둘러보고 싶다면 [Examples](https://github.com/donggyushin/swift-composable-architecture/tree/main/Examples) 를 둘러보면 다양한 프로젝트들을 보면서 활용법들을 직접 익히실 수 있습니다. 
+Composable Architecture 를 활용해서 기능을 빌드하고 테스트하는 기본적인 방법에 대해서 알아보았습니다. 더 심화된 과정에 대해서 둘러보고 싶다면 [Examples](https://github.com/pointfreeco/swift-composable-architecture/tree/main/Examples) 를 둘러보면 다양한 프로젝트들을 보면서 활용법들을 직접 익히실 수 있습니다. 
 
 ## License
 
