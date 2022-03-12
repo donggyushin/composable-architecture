@@ -25,3 +25,9 @@ extension FunFactClient {
             .eraseToEffect()
     }
 }
+
+extension FunFactClient {
+    static let failing = FunFactClient { _ in
+            .failing("FunFactClient.funcFact")
+    }
+}
