@@ -48,7 +48,6 @@ class ViewController: UIViewController {
         let view = UIButton(configuration: .tinted(), primaryAction: .init(handler: { _ in
             self.viewStore.send(.funcFactButtonTapped)
         }))
-        view.setTitle("Fun fact", for: .normal)
         return view
     }()
     
@@ -94,7 +93,7 @@ class ViewController: UIViewController {
     }
     
     private func bind() {
-        self.viewStore.publisher
+        viewStore.publisher
             .map({ "\($0.count)" })
             .assign(to: \.text, on: countLabel)
             .store(in: &self.cancellables)
@@ -103,6 +102,12 @@ class ViewController: UIViewController {
             .compactMap({ $0.funcFactMessage })
             .assign(to: \.text, on: funFactLabel)
             .store(in: &self.cancellables)
+        
+        viewStore.publisher
+            .map({ $0.isLoading })
+            .sink { [weak self] loading in
+                self?.funFactButton.setTitle(loading ? "loading" : "Fun fact", for: .normal)
+            }.store(in: &self.cancellables)
     }
 }
 

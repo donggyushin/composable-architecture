@@ -12,6 +12,7 @@ import Foundation
 struct CounterState: Equatable {
     var count = 0
     var funcFactMessage: String?
+    var isLoading = false
 }
 
 enum CounterAction: Equatable {
@@ -36,14 +37,16 @@ let counterReducer = Reducer<CounterState, CounterAction, CounterEnvironment> { 
         return .none
     case .funcFactReponse(.failure(let error)):
         state.funcFactMessage = error.message
+        state.isLoading = false
         return .none
     case .funcFactReponse(.success(let message)):
         state.funcFactMessage = message
+        state.isLoading = false
         return .none
     case .funcFactButtonTapped:
         
         struct Number: Hashable {}
-        
+        state.isLoading = true
         return env.funFactClient
             .funcFact(state.count)
             .receive(on: env.mainQueue)
