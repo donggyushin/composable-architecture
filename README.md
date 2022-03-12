@@ -42,7 +42,7 @@ Composable Architecture 는 [Brandon Williams](https://twitter.com/mbrandonw) �
 
 [![Screen shots of example applications](https://d3rccdn33rt8ze.cloudfront.net/composable-architecture/demos.png)](https://github.com/donggyushin/swift-composable-architecture/tree/main/Examples)
 
-다양한 문제들을 Composable Architecture로 해결하는 방법에 대한 여러 예시들 보고싶다면, [여기](https://github.com/donggyushin/swift-composable-architecture/tree/main/Examples) 를 확인해보세요.
+다양한 문제들을 Composable Architecture로 해결하는 방법에 대한 여러 예시들 보고싶다면, [여기](https://github.com/pointfreeco/swift-composable-architecture/tree/main/Examples) 를 확인해보세요.
 
 좀 더 실속 있는 걸 찾고 계신가요? [isowords](https://github.com/pointfreeco/isowords) 소스코드를 확인해보세요. SwiftUI와 Composable Architecture를 이용해서 만들어진 iOS 단어찾기 게임입니다. 
 
