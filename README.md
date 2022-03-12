@@ -9,15 +9,6 @@ Composable Architecture(TCA) 는 일관성있고 이해하기 쉬운 방식으�
 * [What is the Composable Architecture?](#what-is-the-composable-architecture)
 * [Learn more](#learn-more)
 * [Basic usage](#basic-usage)
-* [Supplemental libraries](#supplementary-libraries)
-* [FAQ](#faq)
-* [Requirements](#requirements)
-* [Installation](#installation)
-* [Documentation](#documentation)
-* [Help](#help)
-* [Translations](#translations)
-* [Credits and thanks](#credits-and-thanks)
-* [Other libraries](#other-libraries)
 
 ## What is the Composable Architecture?
 이 라이브러리는 다양하고 복잡한 목적의 어플리케이션을 설계하기 위해 몇 가지 핵심 도구들을 제공합니다. 어플리케이션을 개발하면서 매일같이 맞닥뜨리는 여러가지 문제점들을 해결할 수 있는 매력적인 사례들을 제공합니다. 
