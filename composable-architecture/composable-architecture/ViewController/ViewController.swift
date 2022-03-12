@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import Combine
+import ComposableArchitecture
 
 class ViewController: UIViewController {
+    
+    private let store: Store<CounterState, CounterAction>
     
     private let funFactLabel: UILabel = {
         let view = UILabel()
@@ -52,8 +56,9 @@ class ViewController: UIViewController {
         return view
     }()
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    init(store: Store<CounterState, CounterAction>) {
+        self.store = store
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
