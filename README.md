@@ -8,7 +8,6 @@ Composable Architecture(TCA) 는 일관성있고 이해하기 쉬운 방식으�
 
 * [What is the Composable Architecture?](#what-is-the-composable-architecture)
 * [Learn more](#learn-more)
-* [Examples](#examples)
 * [Basic usage](#basic-usage)
 * [Supplemental libraries](#supplementary-libraries)
 * [FAQ](#faq)
@@ -50,23 +49,9 @@ Composable Architecture 는 [Brandon Williams](https://twitter.com/mbrandonw) �
 
 ## Examples
 
-[![Screen shots of example applications](https://d3rccdn33rt8ze.cloudfront.net/composable-architecture/demos.png)](./Examples)
+[![Screen shots of example applications](https://d3rccdn33rt8ze.cloudfront.net/composable-architecture/demos.png)](https://github.com/donggyushin/swift-composable-architecture/tree/main/Examples)
 
-이 레포지토리는 다양한 문제들을 Composable Architecture로 해결하는 방법에 대한 여러 예시들을 담고 있습니다. [여기](./Examples) 를 확인해보세요.
-
-* [Case Studies](./Examples/CaseStudies)
-  * Getting started
-  * Effects
-  * Navigation
-  * Higher-order reducers
-  * Reusable components
-* [Location manager](https://github.com/pointfreeco/composable-core-location/tree/main/Examples/LocationManager)
-* [Motion manager](https://github.com/pointfreeco/composable-core-motion/tree/main/Examples/MotionManager)
-* [Search](./Examples/Search)
-* [Speech Recognition](./Examples/SpeechRecognition)
-* [Tic-Tac-Toe](./Examples/TicTacToe)
-* [Todos](./Examples/Todos)
-* [Voice memos](./Examples/VoiceMemos)
+다양한 문제들을 Composable Architecture로 해결하는 방법에 대한 여러 예시들 보고싶다면, [여기](https://github.com/donggyushin/swift-composable-architecture/tree/main/Examples) 를 확인해보세요.
 
 좀 더 실속 있는 걸 찾고 계신가요? [isowords](https://github.com/pointfreeco/isowords) 소스코드를 확인해보세요. SwiftUI와 Composable Architecture를 이용해서 만들어진 iOS 단어찾기 게임입니다. 
 
@@ -281,157 +266,7 @@ store.send(.factAlertDismissed) {
 }
 ```
 
-Composable Architecture 를 활용해서 기능을 빌드하고 테스트하는 기본적인 방법에 대해서 알아보았습니다. 더 심화된 과정에 대해서 둘러보고 싶다면 [Examples](./Examples) 를 둘러보면 다양한 프로젝트들을 보면서 활용법들을 직접 익히실 수 있습니다. 
-
-### Debugging
-
-The Composable Architecture comes with a number of tools to aid in debugging.
-
-* `reducer.debug()` enhances a reducer with debug-printing that describes every action the reducer receives and every mutation it makes to state.
-
-    ``` diff
-    received action:
-      AppAction.todoCheckboxTapped(id: UUID(5834811A-83B4-4E5E-BCD3-8A38F6BDCA90))
-      AppState(
-        todos: [
-          Todo(
-    -       isComplete: false,
-    +       isComplete: true,
-            description: "Milk",
-            id: 5834811A-83B4-4E5E-BCD3-8A38F6BDCA90
-          ),
-          … (2 unchanged)
-        ]
-      )
-    ```
-
-* `reducer.signpost()` instruments a reducer with signposts so that you can gain insight into how long actions take to execute, and when effects are running.
-
-    <img src="https://s3.amazonaws.com/pointfreeco-production/point-free-pointers/0044-signposts-cover.jpg" width="600">
-
-## Supplementary libraries
-
-One of the most important principles of the Composable Architecture is that side effects are never performed directly, but instead are wrapped in the `Effect` type, returned from reducers, and then the `Store` later performs the effect. This is crucial for simplifying how data flows through an application, and for gaining testability on the full end-to-end cycle of user action to effect execution.
-
-However, this also means that many libraries and SDKs you interact with on a daily basis need to be retrofitted to be a little more friendly to the Composable Architecture style. That's why we'd like to ease the pain of using some of Apple's most popular frameworks by providing wrapper libraries that expose their functionality in a way that plays nicely with our library. So far we support:
-
-* [`ComposableCoreLocation`](https://github.com/pointfreeco/composable-core-location): A wrapper around `CLLocationManager` that makes it easy to use from a reducer, and easy to write tests for how your logic interacts with `CLLocationManager`'s functionality.
-* [`ComposableCoreMotion`](https://github.com/pointfreeco/composable-core-motion): A wrapper around `CMMotionManager` that makes it easy to use from a reducer, and easy to write tests for how your logic interacts with `CMMotionManager`'s functionality.
-* More to come soon. Keep an eye out 😉
-
-If you are interested in contributing a wrapper library for a framework that we have not yet covered, feel free to open an issue expressing your interest so that we can discuss a path forward.
-
-## FAQ
-
-* How does the Composable Architecture compare to Elm, Redux, and others?
-  <details>
-    <summary>Expand to see answer</summary>
-    The Composable Architecture (TCA) is built on a foundation of ideas popularized by the Elm Architecture (TEA) and Redux, but made to feel at home in the Swift language and on Apple's platforms.
-
-    In some ways TCA is a little more opinionated than the other libraries. For example, Redux is not prescriptive with how one executes side effects, but TCA requires all side effects to be modeled in the `Effect` type and returned from the reducer.
-
-    In other ways TCA is a little more lax than the other libraries. For example, Elm controls what kinds of effects can be created via the `Cmd` type, but TCA allows an escape hatch to any kind of effect since `Effect` conforms to the Combine `Publisher` protocol.
-
-    And then there are certain things that TCA prioritizes highly that are not points of focus for Redux, Elm, or most other libraries. For example, composition is very important aspect of TCA, which is the process of breaking down large features into smaller units that can be glued together. This is accomplished with the `pullback` and `combine` operators on reducers, and it aids in handling complex features as well as modularization for a better-isolated code base and improved compile times.
-  </details>
-
-* Why isn't `Store` thread-safe? <br> Why isn't `send` queued? <br> Why isn't `send` run on the main thread?
-  <details>
-    <summary>Expand to see answer</summary>
-
-    All interactions with an instance of `Store` (including all of its scopes and derived `ViewStore`s) must be done on the same thread. If the store is powering a SwiftUI or UIKit view then, all interactions must be done on the _main_ thread.
-
-    When an action is sent to the `Store`, a reducer is run on the current state, and this process cannot be done from multiple threads. A possible work around is to use a queue in `send`s implementation, but this introduces a few new complications:
-
-    1. If done simply with `DispatchQueue.main.async` you will incur a thread hop even when you are already on the main thread. This can lead to unexpected behavior in UIKit and SwiftUI, where sometimes you are required to do work synchronously, such as in animation blocks.
-
-    2. It is possible to create a scheduler that performs its work immediately when on the main thread and otherwise uses `DispatchQueue.main.async` (_e.g._ see [CombineScheduler](https://github.com/pointfreeco/combine-schedulers)'s [`UIScheduler`](https://github.com/pointfreeco/combine-schedulers/blob/main/Sources/CombineSchedulers/UIScheduler.swift)). This introduces a lot more complexity, and should probably not be adopted without having a very good reason.
-
-    This is why we require all actions be sent from the same thread. This requirement is in the same spirit of how `URLSession` and other Apple APIs are designed. Those APIs tend to deliver their outputs on whatever thread is most convenient for them, and then it is your responsibility to dispatch back to the main queue if that's what you need. The Composable Architecture makes you responsible for making sure to send actions on the main thread. If you are using an effect that may deliver its output on a non-main thread, you must explicitly perform `.receive(on:)` in order to force it back on the main thread.
-
-    This approach makes the fewest number of assumptions about how effects are created and transformed, and prevents unnecessary thread hops and re-dispatching. It also provides some testing benefits. If your effects are not responsible for their own scheduling, then in tests all of the effects would run synchronously and immediately. You would not be able to test how multiple in-flight effects interleave with each other and affect the state of your application. However, by leaving scheduling out of the `Store` we get to test these aspects of our effects if we so desire, or we can ignore if we prefer. We have that flexibility.
-
-    However, if you are still not a fan of our choice, then never fear! The Composable Architecture is flexible enough to allow you to introduce this functionality yourself if you so desire. It is possible to create a higher-order reducer that can force all effects to deliver their output on the main thread, regardless of where the effect does its work:
-
-    ```swift
-    extension Reducer {
-      func receive<S: Scheduler>(on scheduler: S) -> Self {
-        Self { state, action, environment in
-          self(&state, action, environment)
-            .receive(on: scheduler)
-            .eraseToEffect()
-        }
-      }
-    }
-    ```
-
-    You would probably still want something like a `UIScheduler` so that you don't needlessly perform thread hops.
-  </details>
-
-## Requirements
-
-The Composable Architecture depends on the Combine framework, so it requires minimum deployment targets of iOS 13, macOS 10.15, Mac Catalyst 13, tvOS 13, and watchOS 6. If your application must support older OSes, there are forks for [ReactiveSwift](https://github.com/trading-point/reactiveswift-composable-architecture) and [RxSwift](https://github.com/dannyhertz/rxswift-composable-architecture) that you can adopt!
-
-## Installation
-
-You can add ComposableArchitecture to an Xcode project by adding it as a package dependency.
-
-  1. From the **File** menu, select **Add Packages...**
-  2. Enter "https://github.com/pointfreeco/swift-composable-architecture" into the package repository URL text field
-  3. Depending on how your project is structured:
-      - If you have a single application target that needs access to the library, then add **ComposableArchitecture** directly to your application.
-      - If you want to use this library from multiple Xcode targets, or mixing Xcode targets and SPM targets, you must create a shared framework that depends on **ComposableArchitecture** and then depend on that framework in all of your targets. For an example of this, check out the [Tic-Tac-Toe](./Examples/TicTacToe) demo application, which splits lots of features into modules and consumes the static library in this fashion using the **tic-tac-toe** Swift package.
-
-## Documentation
-
-The latest documentation for the Composable Architecture APIs is available [here](https://pointfreeco.github.io/swift-composable-architecture/).
-
-## Help
-
-If you want to discuss the Composable Architecture or have a question about how to use it to solve a particular problem, you can start a topic in the [discussions](https://github.com/pointfreeco/swift-composable-architecture/discussions) tab of this repo, or ask around on [its Swift forum](https://forums.swift.org/c/related-projects/swift-composable-architecture).
-
-## Translations
-
-The following translations of this README have been contributed by members of the community:
-
-* [Arabic](https://gist.github.com/NorhanBoghdadi/1b98d55c02b683ddef7e05c2ebcccd47)
-* [French](https://gist.github.com/nikitamounier/0e93eb832cf389db12f9a69da030a2dc)
-* [Indonesian](https://gist.github.com/wendyliga/792ea9ac5cc887f59de70a9e39cc7343)
-* [Italian](https://gist.github.com/Bellaposa/5114e6d4d55fdb1388e8186886d48958)
-* [Korean](https://gist.github.com/pilgwon/ea05e2207ab68bdd1f49dff97b293b17)
-* [Simplified Chinese](https://gist.github.com/sh3l6orrr/10c8f7c634a892a9c37214f3211242ad)
-
-If you'd like to contribute a translation, please [open a PR](https://github.com/pointfreeco/swift-composable-architecture/edit/main/README.md) with a link to a [Gist](https://gist.github.com)!
-
-## Credits and thanks
-
-The following people gave feedback on the library at its early stages and helped make the library what it is today:
-
-Paul Colton, Kaan Dedeoglu, Matt Diephouse, Josef Doležal, Eimantas, Matthew Johnson, George Kaimakas, Nikita Leonov, Christopher Liscio, Jeffrey Macko, Alejandro Martinez, Shai Mishali, Willis Plummer, Simon-Pierre Roy, Justin Price, Sven A. Schmidt, Kyle Sherman, Petr Šíma, Jasdev Singh, Maxim Smirnov, Ryan Stone, Daniel Hollis Tavares, and all of the [Point-Free](https://www.pointfree.co) subscribers 😁.
-
-Special thanks to [Chris Liscio](https://twitter.com/liscio) who helped us work through many strange SwiftUI quirks and helped refine the final API.
-
-And thanks to [Shai Mishali](https://github.com/freak4pc) and the [CombineCommunity](https://github.com/CombineCommunity/CombineExt/) project, from which we took their implementation of `Publishers.Create`, which we use in `Effect` to help bridge delegate and callback-based APIs, making it much easier to interface with 3rd party frameworks.
-
-## Other libraries
-
-The Composable Architecture was built on a foundation of ideas started by other libraries, in particular [Elm](https://elm-lang.org) and [Redux](https://redux.js.org/).
-
-There are also many architecture libraries in the Swift and iOS community. Each one of these has their own set of priorities and trade-offs that differ from the Composable Architecture.
-
-* [RIBs](https://github.com/uber/RIBs)
-* [Loop](https://github.com/ReactiveCocoa/Loop)
-* [ReSwift](https://github.com/ReSwift/ReSwift)
-* [Workflow](https://github.com/square/workflow)
-* [ReactorKit](https://github.com/ReactorKit/ReactorKit)
-* [RxFeedback](https://github.com/NoTests/RxFeedback.swift)
-* [Mobius.swift](https://github.com/spotify/mobius.swift)
-* <details>
-  <summary>And more</summary>
-
-  * [Fluxor](https://github.com/FluxorOrg/Fluxor)
-  * [PromisedArchitectureKit](https://github.com/RPallas92/PromisedArchitectureKit)
-  </details>
+Composable Architecture 를 활용해서 기능을 빌드하고 테스트하는 기본적인 방법에 대해서 알아보았습니다. 더 심화된 과정에 대해서 둘러보고 싶다면 [Examples](https://github.com/donggyushin/swift-composable-architecture/tree/main/Examples) 를 둘러보면 다양한 프로젝트들을 보면서 활용법들을 직접 익히실 수 있습니다. 
 
 ## License
 
