@@ -7,6 +7,8 @@
 
 import UIKit
 
+let jsonDecoder = JSONDecoder()
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

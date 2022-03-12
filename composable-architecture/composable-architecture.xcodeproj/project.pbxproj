@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		70237C9927DD05950090FC5D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 70237C9827DD05950090FC5D /* ComposableArchitecture */; };
 		70237C9F27DD064F0090FC5D /* CounterReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70237C9E27DD064F0090FC5D /* CounterReducer.swift */; };
+		70237CA227DD09680090FC5D /* FunFactClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70237CA127DD09680090FC5D /* FunFactClient.swift */; };
 		70774E9027DD017D0065E5E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70774E8F27DD017D0065E5E1 /* AppDelegate.swift */; };
 		70774E9227DD017D0065E5E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70774E9127DD017D0065E5E1 /* SceneDelegate.swift */; };
 		70774E9427DD017D0065E5E1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70774E9327DD017D0065E5E1 /* ViewController.swift */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		70237C9E27DD064F0090FC5D /* CounterReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterReducer.swift; sourceTree = "<group>"; };
+		70237CA127DD09680090FC5D /* FunFactClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunFactClient.swift; sourceTree = "<group>"; };
 		70774E8C27DD017D0065E5E1 /* composable-architecture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "composable-architecture.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		70774E8F27DD017D0065E5E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		70774E9127DD017D0065E5E1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +75,14 @@
 			path = Reducer;
 			sourceTree = "<group>";
 		};
+		70237CA027DD09560090FC5D /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				70237CA127DD09680090FC5D /* FunFactClient.swift */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
 		70774E8327DD017D0065E5E1 = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +102,7 @@
 		70774E8E27DD017D0065E5E1 /* composable-architecture */ = {
 			isa = PBXGroup;
 			children = (
+				70237CA027DD09560090FC5D /* Client */,
 				70237C9D27DD063B0090FC5D /* Reducer */,
 				70237C9C27DD06120090FC5D /* Assets */,
 				70237C9B27DD05F70090FC5D /* App */,
@@ -177,6 +188,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70237CA227DD09680090FC5D /* FunFactClient.swift in Sources */,
 				70774E9427DD017D0065E5E1 /* ViewController.swift in Sources */,
 				70237C9F27DD064F0090FC5D /* CounterReducer.swift in Sources */,
 				70774E9027DD017D0065E5E1 /* AppDelegate.swift in Sources */,

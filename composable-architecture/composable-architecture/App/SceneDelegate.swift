@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = .init(windowScene: scene)
         window?.makeKeyAndVisible()
         window?.rootViewController = UINavigationController(rootViewController:
-                                                                ViewController(store: .init(initialState: CounterState(), reducer: counterReducer, environment: .init()))
+                                                                ViewController(store: .init(initialState: CounterState(), reducer: counterReducer, environment: .init(funFactClient: FunFactClient.live, mainQueue: .main)))
         )
     }
 

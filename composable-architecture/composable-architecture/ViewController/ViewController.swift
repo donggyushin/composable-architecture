@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     private let funFactLabel: UILabel = {
         let view = UILabel()
         view.text = "Fun fact"
+        view.numberOfLines = 0
         view.textAlignment = .center
         return view
     }()
@@ -43,6 +44,14 @@ class ViewController: UIViewController {
         return view
     }()
     
+    private lazy var funFactButton: UIButton = {
+        let view = UIButton(configuration: .tinted(), primaryAction: .init(handler: { _ in
+            self.viewStore.send(.funcFactButtonTapped)
+        }))
+        view.setTitle("Fun fact", for: .normal)
+        return view
+    }()
+    
     private lazy var horizontalStackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [plusButton, countLabel, minusButton])
         view.axis = .horizontal
@@ -51,8 +60,9 @@ class ViewController: UIViewController {
     }()
     
     private lazy var verticalStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [funFactLabel, horizontalStackView])
+        let view = UIStackView(arrangedSubviews: [funFactLabel, horizontalStackView, funFactButton])
         view.axis = .vertical
+        view.alignment = .center
         view.spacing = 20
         return view
     }()
@@ -77,8 +87,9 @@ class ViewController: UIViewController {
         verticalStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            verticalStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            verticalStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            verticalStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            verticalStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            verticalStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20)
         ])
     }
     
@@ -86,6 +97,11 @@ class ViewController: UIViewController {
         self.viewStore.publisher
             .map({ "\($0.count)" })
             .assign(to: \.text, on: countLabel)
+            .store(in: &self.cancellables)
+        
+        viewStore.publisher
+            .compactMap({ $0.funcFactMessage })
+            .assign(to: \.text, on: funFactLabel)
             .store(in: &self.cancellables)
     }
 }
