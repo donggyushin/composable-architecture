@@ -8,12 +8,12 @@
 import Combine
 import ComposableArchitecture
 
-struct CounterState {
+struct CounterState: Equatable {
     var count = 0
     var funcFactMessage: String?
 }
 
-enum CounterAction {
+enum CounterAction: Equatable {
     case decrementButtonTapped
     case incrementButtonTapped
 }

@@ -11,7 +11,8 @@ import ComposableArchitecture
 
 class ViewController: UIViewController {
     
-    private let store: Store<CounterState, CounterAction>
+    private let viewStore: ViewStore<CounterState, CounterAction>
+    private var cancellables: Set<AnyCancellable> = []
     
     private let funFactLabel: UILabel = {
         let view = UILabel()
@@ -21,16 +22,16 @@ class ViewController: UIViewController {
     }()
     
     private lazy var plusButton: UIButton = {
-        let view = UIButton(configuration: .tinted(), primaryAction: .init(handler: { _ in
-            print("DEBUG: plus button")
+        let view = UIButton(configuration: .tinted(), primaryAction: .init(handler: { [weak self] _ in
+            self?.viewStore.send(.incrementButtonTapped)
         }))
         view.setTitle("+", for: .normal)
         return view
     }()
     
     private lazy var minusButton: UIButton = {
-        let view = UIButton(configuration: .tinted(), primaryAction: .init(handler: { _ in
-            print("DEBUG: minus button")
+        let view = UIButton(configuration: .tinted(), primaryAction: .init(handler: { [weak self] _ in
+            self?.viewStore.send(.decrementButtonTapped)
         }))
         view.setTitle("-", for: .normal)
         return view
@@ -57,7 +58,7 @@ class ViewController: UIViewController {
     }()
     
     init(store: Store<CounterState, CounterAction>) {
-        self.store = store
+        self.viewStore = ViewStore(store)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -67,6 +68,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         configUI()
+        bind()
     }
     
     private func configUI() {
@@ -78,6 +80,13 @@ class ViewController: UIViewController {
             verticalStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             verticalStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+    }
+    
+    private func bind() {
+        self.viewStore.publisher
+            .map({ "\($0.count)" })
+            .assign(to: \.text, on: countLabel)
+            .store(in: &self.cancellables)
     }
 }
 
